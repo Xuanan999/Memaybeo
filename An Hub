@@ -2795,6 +2795,84 @@ ToggleRandom = M:AddToggle({
     end)
 
 
+ST:AddToggle({
+        Name = "Auto Haki",
+        Default = true,
+        Callback = function(Value)
+            _G.AUTOHAKI = Value
+        end    
+    })
+    spawn(function()
+        while wait(.1) do
+            if _G.AUTOHAKI then 
+                if not game.Players.LocalPlayer.Character:FindFirstChild("HasBuso") then
+                    local args = {
+                        [1] = "Buso"
+                    }
+                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                end
+            end
+        end
+    end)
+
+    ST:AddToggle({
+        Name = "Anti Afk",
+        Default = true,
+        Callback = function(Value)
+            local vu = game:GetService("VirtualUser")
+    repeat wait() until game:IsLoaded() 
+    game:GetService("Players").LocalPlayer.Idled:connect(function()
+    game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+        vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+        wait(1)
+        vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+            end)
+        end    
+    })
+
+    ST:AddToggle({
+        Name = "White screen",
+        Default = false,
+        Flag = "White screen",
+        Save = true,
+        Callback = function(Value)
+            _G.WhiteScreen = Value
+if _G.WhiteScreen == true then
+    game:GetService("RunService"):Set3dRenderingEnabled(false)
+elseif _G.WhiteScreen == false then
+    game:GetService("RunService"):Set3dRenderingEnabled(true)
+        end
+    end
+    })
+
+    function CheckAntiCheatBypass()
+        for i,v in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+            if v:IsA("LocalScript") then
+                if v.Name == "General" or v.Name == "Shiftlock"  or v.Name == "FallDamage" or v.Name == "4444" or v.Name == "CamBob" or v.Name == "JumpCD" or v.Name == "Looking" or v.Name == "Run" then
+                    v:Destroy()
+                end
+            end
+         end
+         for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerScripts:GetDescendants()) do
+            if v:IsA("LocalScript") then
+                if v.Name == "RobloxMotor6DBugFix" or v.Name == "Clans"  or v.Name == "Codes" or v.Name == "CustomForceField" or v.Name == "MenuBloodSp"  or v.Name == "PlayerList" then
+                    v:Destroy()
+                end
+            end
+         end
+        end
+    
+    CheckAntiCheatBypass()
+    
+    ST:AddToggle({
+        Name = "Antiban",
+        Default = true,
+        Callback = function(Value)
+            _G.AntiCheat = Value
+            CheckAntiCheatBypass()
+        end    
+    })
+
 
 
 spawn(function()

@@ -1,0 +1,19 @@
+spawn(function() 
+    repeat
+        task.wait()
+    until game:IsLoaded()
+    repeat
+        task.wait()
+    until game.Players
+    repeat
+        task.wait()
+    until game.Players.LocalPlayer and game.Players.LocalPlayer.Team ~= nil 
+    wait(1.5)
+    require(game.ReplicatedStorage.Notification).new("<Color=Red>Cảm Ơn Bạn Đã Sử Dụng Script<Color=/>"):Display()
+    wait(.5)
+    require(game.ReplicatedStorage.Notification).new("<Color=Red>Wait Find Fruit<Color=/>"):Display()
+    require(game.ReplicatedStorage.Notification).new("<Color=Yellow>Channel : Zedrs <Color=/>"):Display()
+    wait(.36)
+end)
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/marisdeptrai/Script-Free/main/FruitFinder.lua"))()

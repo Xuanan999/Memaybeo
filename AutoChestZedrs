@@ -26,8 +26,8 @@ spawn(function()
     wait(.36)
 end)
 
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Nghiavndeptraivcc/Orion-nhu-cut/main/Orion.Source')))()
-local Window = OrionLib:MakeWindow({Name = "Auto Chest Zedrs", HidePremium = false,IntroText = "Auto Chest", SaveConfig = true, ConfigFolder = "AnDepZai"})
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local Window = OrionLib:MakeWindow({Name = "AutoChest Zedrs", HidePremium = false, IntroText = "Zedrs Library", SaveConfig = true, ConfigFolder = "Night Hub"})
 
 local G = Window:MakeTab({
 	Name = "Main Chest",
@@ -37,12 +37,31 @@ local G = Window:MakeTab({
 
 G:AddToggle({
 	Name = "Auto Chest",
-	Default = true,
+	Default = false,
 	Callback = function(Value)
 		_G.ChestBypass = Value
-        CancelTween(_G.AutoMob)
+        CancelTween(_G.ChestBypass)
 	end    
 })
+
+G:AddToggle({
+    Name = "Stop chest when there are keys and cups"
+    Default = true,
+    Callback = function(Value)
+    _G.StopChest = value
+    CancelTween(__G.StopChest)
+
+spawn(function()
+    while wait() do
+    if _G.StopChest then
+        if game.Players.LocalPlayer.Backpack:FindFirstChild("Fist of Darkness") or game.Players.LocalPlayer.Character:FindFirstChild("Fist of Darkness") or game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") then
+            AutoFarmChest = false
+            StopTween(AutoFarmChest)
+            TweenChest:Set(false)
+        end
+    end
+end
+end)
 
 spawn(function()
         while wait() do
@@ -72,27 +91,9 @@ spawn(function()
         while task.wait() do
         if _G.ChestBypass then
                 local ohString1 = "SetTeam"
-                local ohString2 = "Marines"
+                local ohString2 = "Pirates"
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(ohString1, ohString2)
              end
         end
         end)
-
-G:AddToggle({
-    Name = "Stop chest when there are keys and cups"
-    Default = true,
-    Callback = function(Value)
-    _G.StopChest = value
-    CancelTween(__G.StopChest)
-
-spawn(function()
-    while wait() do
-    if _G.StopChest then
-        if game.Players.LocalPlayer.Backpack:FindFirstChild("Fist of Darkness") or game.Players.LocalPlayer.Character:FindFirstChild("Fist of Darkness") or game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") then
-            AutoFarmChest = false
-            StopTween(AutoFarmChest)
-            TweenChest:Set(false)
-        end
-    end
-end
-end)
+        

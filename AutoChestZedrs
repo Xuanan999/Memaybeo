@@ -1,0 +1,88 @@
+spawn(function() 
+    repeat
+        task.wait()
+    until game:IsLoaded()
+    repeat
+        task.wait()
+    until game.Players
+    repeat
+        task.wait()
+    until game.Players.LocalPlayer and game.Players.LocalPlayer.Team ~= nil 
+    wait(1.5)
+    require(game.ReplicatedStorage.Notification).new("<Color=Red>Cảm Ơn Bạn Đã Sử Dụng Script<Color=/>"):Display()
+    wait(.5)
+    require(game.ReplicatedStorage.Notification).new("<Color=Red>Auto Chest By:Zedrs<Color=/>"):Display()
+    require(game.ReplicatedStorage.Notification).new("<Color=Yellow>Channel : Zedrs <Color=/>"):Display()
+    wait(.36)
+end)
+
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Nghiavndeptraivcc/Orion-nhu-cut/main/Orion.Source')))()
+local Window = OrionLib:MakeWindow({Name = "Auto Chest Zedrs", HidePremium = false,IntroText = "Auto Chest", SaveConfig = true, ConfigFolder = "AnDepZai"})
+
+local G = Window:MakeTab({
+	Name = "Main Chest",
+	Icon = "rbxassetid://16439208727",
+	PremiumOnly = false
+})
+
+G:AddToggle({
+	Name = "Auto Chest",
+	Default = true,
+	Callback = function(Value)
+		_G.ChestBypass = Value
+        CancelTween(_G.AutoMob)
+	end    
+})
+
+spawn(function()
+        while wait() do
+        if _G.ChestBypass then
+        pcall(function()
+        for i,v in pairs(game:GetService("Workspace"):GetChildren()) do
+              if string.find(v.Name, "Chest") then
+                  print(v.Name)
+                  game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                  wait(.15)
+              end
+          end
+          game.Players.LocalPlayer.Character.Head:Destroy()
+          for _,v in pairs(game:GetService("Workspace"):GetDescendants()) do
+           if string.find(v.Name, "Chest") and v:IsA("TouchTransmitter") then
+           firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0) --0 is touch
+           wait()
+           firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1) -- 1 is untouch
+           end
+           end
+          end)
+            end
+          end
+        end)
+        
+        spawn(function()
+        while task.wait() do
+        if _G.ChestBypass then
+                local ohString1 = "SetTeam"
+                local ohString2 = "Marines"
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(ohString1, ohString2)
+             end
+        end
+        end)
+
+G:AddToggle({
+    Name = "Stop chest when there are keys and cups"
+    Default = true,
+    Callback = function(Value)
+    _G.StopChest = value
+    CancelTween(__G.StopChest)
+
+spawn(function()
+    while wait() do
+    if _G.StopChest then
+        if game.Players.LocalPlayer.Backpack:FindFirstChild("Fist of Darkness") or game.Players.LocalPlayer.Character:FindFirstChild("Fist of Darkness") or game.Players.LocalPlayer.Backpack:FindFirstChild("God's Chalice") or game.Players.LocalPlayer.Character:FindFirstChild("God's Chalice") then
+            AutoFarmChest = false
+            StopTween(AutoFarmChest)
+            TweenChest:Set(false)
+        end
+    end
+end
+end)
